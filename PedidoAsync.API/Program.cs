@@ -1,4 +1,8 @@
 using PedidoAsync.Infrastructure.Extensions;
+using PedidoAsync.Infrastructure.Data;
+using PedidoAsync.Infrastructure.Extensions;
+
+MongoDbConfiguration.Configure();
 
 var builder = WebApplication.CreateBuilder(args);
 
