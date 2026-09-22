@@ -11,6 +11,11 @@ namespace PedidoAsync.Domain.Entities
         public DateTime? DataProcessamento { get; set; }
         public StatusPedido Status { get; set; }
 
+        private Pedido() 
+        {
+            
+        }
+
         public Pedido(string cliente, decimal valor) 
         {
             Id = Guid.NewGuid();

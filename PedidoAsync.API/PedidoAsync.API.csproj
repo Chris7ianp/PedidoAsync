@@ -15,8 +15,4 @@
     <ProjectReference Include="..\PedidoAsync.Infrastructure\PedidoAsync.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

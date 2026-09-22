@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PedidoAsync.Application.Interfaces;
+using PedidoAsync.Application.Services;
 using PedidoAsync.Infrastructure.Data;
+using PedidoAsync.Infrastructure.Messaging;
 using PedidoAsync.Infrastructure.Repositories;
 
 namespace PedidoAsync.Infrastructure.Extensions;
@@ -32,6 +34,8 @@ public static class DependencyInjection
         services.AddSingleton<MongoDbContext>();
 
         services.AddScoped<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<PedidoService>();
+        services.AddScoped<IMessagePublisher, RabbitMqPublisher>();
 
         return services;
     }
