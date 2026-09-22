@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="PedidoAsync.API/PedidoAsync.API.csproj" />
+  <Project Path="PedidoAsync.Application/PedidoAsync.Application.csproj" />
+  <Project Path="PedidoAsync.Domain/PedidoAsync.Domain.csproj" />
+  <Project Path="PedidoAsync.Infrastructure/PedidoAsync.Infrastructure.csproj" />
+  <Project Path="PedidoAsync.Worker/PedidoAsync.Worker.csproj" />
+</Solution>
