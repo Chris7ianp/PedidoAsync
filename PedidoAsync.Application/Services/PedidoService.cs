@@ -1,4 +1,5 @@
-﻿using PedidoAsync.Domain.Entities;
+﻿using PedidoAsync.Application.Interfaces;
+using PedidoAsync.Domain.Entities;
 
 namespace PedidoAsync.Application
 {
