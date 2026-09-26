@@ -9,6 +9,6 @@ namespace PedidoAsync.Domain.Enums
     public enum StatusPedido
     {
         Pendente = 1,
-        Processando = 2
+        Processado = 2
     }
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "PedidoAsync.API\\PedidoAsync.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "IIS Express"
+      },
+      {
+        "Path": "PedidoAsync.Worker\\PedidoAsync.Worker.csproj",
+        "Action": "Start",
+        "DebugTarget": "PedidoAsync.Worker"
+      }
+    ]
+  }
+]
