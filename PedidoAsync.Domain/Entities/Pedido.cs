@@ -27,7 +27,7 @@ namespace PedidoAsync.Domain.Entities
 
         public void MarcarComoProcessado()
         {
-            Status = StatusPedido.Processando;
+            Status = StatusPedido.Processado;
             DataProcessamento = DateTime.UtcNow;
         }
     }

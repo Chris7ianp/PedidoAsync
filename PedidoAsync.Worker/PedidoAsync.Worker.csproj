@@ -1,14 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-PedidoAsync.Worker-4cbeb2aa-b4da-4c5a-87e9-2a0ff683c34f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PedidoAsync.Application\PedidoAsync.Application.csproj" />
-    <ProjectReference Include="..\PedidoAsync.Infrastructure\PedidoAsync.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PedidoAsync.Application\PedidoAsync.Application.csproj" />
+    <ProjectReference Include="..\PedidoAsync.Domain\PedidoAsync.Domain.csproj" />
+    <ProjectReference Include="..\PedidoAsync.Infrastructure\PedidoAsync.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
