@@ -3,5 +3,5 @@
   <Project Path="PedidoAsync.Application/PedidoAsync.Application.csproj" />
   <Project Path="PedidoAsync.Domain/PedidoAsync.Domain.csproj" />
   <Project Path="PedidoAsync.Infrastructure/PedidoAsync.Infrastructure.csproj" />
-  <Project Path="PedidoAsync.Worker/PedidoAsync.Worker.csproj" />
+  <Project Path="PedidoAsync.Worker/PedidoAsync.Worker.csproj" Id="17fa6397-f7ba-4a3e-ae55-bf6078e151c8" />
 </Solution>
