@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PedidoAsync.Application;
 using PedidoAsync.Application.Services;
+using PedidoAsync.API.DTOs;
 
 namespace PedidoAsync.API.Controllers;
 
@@ -20,8 +21,11 @@ public class PedidosController : ControllerBase
         [FromBody] CriarPedidoRequest request)
     {
         var pedido = await _pedidoService.CriarAsync(
+            request.NumeroPedido,
             request.Cliente,
-            request.Valor);
+            request.Email,
+            request.Valor,
+            request.DataPedido);
 
         return CreatedAtAction(
             nameof(ObterPorId),
@@ -51,9 +55,3 @@ public class PedidosController : ControllerBase
     }
 }
 
-public class CriarPedidoRequest
-{
-    public string Cliente { get; set; } = string.Empty;
-
-    public decimal Valor { get; set; }
-}

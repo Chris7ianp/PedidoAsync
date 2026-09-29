@@ -3,8 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PedidoAsync.Application.Interfaces;
 using PedidoAsync.Application.Services;
 using PedidoAsync.Infrastructure.Data;
+using PedidoAsync.Infrastructure.Excel;
 using PedidoAsync.Infrastructure.Messaging;
 using PedidoAsync.Infrastructure.Repositories;
+using PedidoAsync.Infrastructure.Excel;
 
 namespace PedidoAsync.Infrastructure.Extensions;
 
@@ -36,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IPedidoRepository, PedidoRepository>();
         services.AddScoped<PedidoService>();
         services.AddScoped<IMessagePublisher, RabbitMqPublisher>();
+        services.AddScoped<IPlanilhaPedidoReader, PlanilhaPedidoReader>();
 
         return services;
     }
