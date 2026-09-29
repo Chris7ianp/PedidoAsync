@@ -18,9 +18,9 @@ namespace PedidoAsync.Application.Services
             _messagePublisher = messagePublisher;
         }
 
-        public async Task<PedidoDto> CriarAsync(string cliente, decimal valor)
+        public async Task<PedidoDto> CriarAsync(int numeroPedido, string cliente, string email, decimal valor, DateTime dataPedido)
         {
-            var pedido = new Pedido(cliente, valor);
+            var pedido = new Pedido(cliente, valor, numeroPedido, email, dataPedido);
 
             await _pedidoRepository.AdicionarAsync(pedido);
 
@@ -63,11 +63,14 @@ namespace PedidoAsync.Application.Services
             return new PedidoDto
             {
                 Id = pedido.Id,
+                NumeroPedido = pedido.NumeroPedido,
                 Cliente = pedido.Cliente,
+                Email = pedido.Email,
                 Valor = pedido.Valor,
-                Status = pedido.Status.ToString(),
+                DataPedido = pedido.DataPedido,
                 DataCriacao = pedido.DataCriacao,
-                DataProcessamento = pedido.DataProcessamento
+                DataProcessamento = pedido.DataProcessamento,
+                Status = pedido.Status.ToString()
             };
         }
 
