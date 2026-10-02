@@ -18,7 +18,7 @@ namespace PedidoAsync.Application.Services
             _messagePublisher = messagePublisher;
         }
 
-        public async Task<PedidoDto> CriarAsync(int numeroPedido, string cliente, string email, decimal valor, DateTime dataPedido)
+        public async Task<PedidoDto> CriarAsync(Guid importacaoId, int numeroPedido,  string cliente, string email, decimal valor, DateTime dataPedido)
         {
             var pedido = new Pedido(cliente, valor, numeroPedido, email, dataPedido);
 
@@ -27,14 +27,40 @@ namespace PedidoAsync.Application.Services
             var evento = new PedidoCriadoEvent
             {
                 PedidoId = pedido.Id,
+                ImportacaoId = importacaoId,
+                NumeroPedido = pedido.NumeroPedido,
                 Cliente = pedido.Cliente,
+                Email = pedido.Email,
                 Valor = pedido.Valor,
+                DataPedido = pedido.DataPedido,
                 DataCriacao = pedido.DataCriacao
             };
 
             await _messagePublisher.PublicarAsync(evento);
 
             return MapearParaDto(pedido);
+        }
+        public async Task<PedidoDto> CriarAsync(int numerPedido, string cliente, string email, decimal valor, DateTime dataPedido)
+        {
+            var pedido = new Pedido(cliente, valor, numerPedido, email, dataPedido);
+
+            await _pedidoRepository.AdicionarAsync(pedido);
+
+            var evento = new PedidoCriadoEvent
+            {
+                PedidoId = pedido.Id,
+                NumeroPedido = pedido.NumeroPedido,
+                Cliente = pedido.Cliente,
+                Email = pedido.Email,
+                Valor = pedido.Valor,
+                DataPedido = pedido.DataPedido,
+                DataCriacao = pedido.DataCriacao
+            };
+
+            await _messagePublisher.PublicarAsync(evento);
+
+            return MapearParaDto(pedido);
+
         }
 
         public async Task<List<PedidoDto>> ObterTodosAsync()

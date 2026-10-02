@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PedidoAsync.Application.DTOs;
 using PedidoAsync.Application.Interfaces;
+using PedidoAsync.Application.Services;
 
 namespace PedidoAsync.API.Controllers
 {
@@ -9,10 +10,12 @@ namespace PedidoAsync.API.Controllers
     public class ImportacoesController : ControllerBase
     {
         private readonly IPlanilhaPedidoReader _planilhaPedidoReader;
+        private readonly ImportacaoService _importacaoService;
 
-        public ImportacoesController(IPlanilhaPedidoReader planilhaPedidoReader)
+        public ImportacoesController(IPlanilhaPedidoReader planilhaPedidoReader, ImportacaoService importacaoService)
         {
             _planilhaPedidoReader = planilhaPedidoReader;
+            _importacaoService = importacaoService;
         }
 
         [HttpPost("pedidos")]
@@ -33,17 +36,15 @@ namespace PedidoAsync.API.Controllers
 
             await using var stream = arquivo.OpenReadStream();
 
-            var resultado = await _planilhaPedidoReader.LerAsync(stream);
+            var resultado = await _importacaoService.CriarImportacaoAsync(arquivo.FileName, stream);
 
-            var response = new ResultadoImportacaoDto
+            return Ok(new
             {
-                TotalRegistros = resultado.Pedidos.Count + resultado.Erros.Count,
-                RegistrosImportados = resultado.Pedidos.Count,
-                RegistrosComErro = resultado.Erros.Count,
-                Erros = resultado.Erros
-            };
-
-            return Ok(response);
+                importacaoId = resultado.Importacao.Id,
+                arquivo = resultado.Importacao.NomeArquivo,
+                totalRegistros = resultado.Importacao.TotalRegistros,
+                pedidosLidos = resultado.Pedidos.Count
+            });
         }
 
     }
