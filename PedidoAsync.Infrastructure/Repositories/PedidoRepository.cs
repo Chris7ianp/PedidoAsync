@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
-using PedidoAsync.Application;
 using PedidoAsync.Application.Interfaces;
+using PedidoAsync.Application.Services;
 using PedidoAsync.Domain.Entities;
 using PedidoAsync.Infrastructure.Data;
 

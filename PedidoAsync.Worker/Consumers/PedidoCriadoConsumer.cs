@@ -120,6 +120,9 @@ public class PedidoCriadoConsumer : BackgroundService
             var repository = scope.ServiceProvider
                 .GetRequiredService<IPedidoRepository>();
 
+            var importacaoRepository = scope.ServiceProvider
+                .GetRequiredService<IImportacaoRepository>();
+
             var pedido = await repository.ObterPorIdAsync(
                 evento.PedidoId);
 
@@ -139,6 +142,14 @@ public class PedidoCriadoConsumer : BackgroundService
             pedido.MarcarComoProcessado();
 
             await repository.AtualizarAsync(pedido);
+
+            var importacao = await importacaoRepository.ObterPorIdAsync(evento.ImportacaoId);
+
+            if (importacao is not null)
+            {
+                importacao.RegistrarProcessamento();
+                await importacaoRepository.AtualizarAsync(importacao);
+            }
 
             await _channel.BasicAckAsync(
                 args.DeliveryTag,

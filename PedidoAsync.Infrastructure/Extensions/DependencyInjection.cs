@@ -6,7 +6,9 @@ using PedidoAsync.Infrastructure.Data;
 using PedidoAsync.Infrastructure.Excel;
 using PedidoAsync.Infrastructure.Messaging;
 using PedidoAsync.Infrastructure.Repositories;
-using PedidoAsync.Infrastructure.Excel;
+using PedidoAsync.Application.Services;
+
+
 
 namespace PedidoAsync.Infrastructure.Extensions;
 
@@ -39,6 +41,10 @@ public static class DependencyInjection
         services.AddScoped<PedidoService>();
         services.AddScoped<IMessagePublisher, RabbitMqPublisher>();
         services.AddScoped<IPlanilhaPedidoReader, PlanilhaPedidoReader>();
+        services.AddScoped<IImportacaoRepository, ImportacaoRepository>();
+        services.AddScoped<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<ImportacaoService>();
+
 
         return services;
     }
