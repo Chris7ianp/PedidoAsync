@@ -7,12 +7,18 @@ public class MongoDbContext
 {
     public IMongoCollection<Pedido> Pedidos { get; }
 
+    public IMongoCollection<Importacao> Importacoes { get; }
+
     public MongoDbContext(MongoDbSettings settings)
     {
         var client = new MongoClient(settings.ConnectionString);
 
         var database = client.GetDatabase(settings.DatabaseName);
 
-        Pedidos = database.GetCollection<Pedido>(settings.CollectionName);
+        Pedidos = database.GetCollection<Pedido>(
+            settings.CollectionName);
+
+        Importacoes = database.GetCollection<Importacao>(
+            "Importacoes");
     }
 }
