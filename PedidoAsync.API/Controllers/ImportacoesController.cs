@@ -47,5 +47,17 @@ namespace PedidoAsync.API.Controllers
             });
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+            var importacao = await _importacaoService.ObterPorIdAsync(id);
+            if (importacao == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(importacao);
+        }
+
     }
 }

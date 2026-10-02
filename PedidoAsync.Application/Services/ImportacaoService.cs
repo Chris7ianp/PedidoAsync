@@ -51,5 +51,26 @@ namespace PedidoAsync.Application.Services
 
             return (importacao, resultado.Pedidos);
         }
+
+        public async Task<ImportacaoDto?> ObterPorIdAsync(Guid id)
+        {
+            var importacao = await _importacaoRepository.ObterPorIdAsync(id);
+            if (importacao == null)
+            {
+                return null;
+            }
+
+            return new ImportacaoDto
+            {
+                Id = importacao.Id,
+                NomeArquivo = importacao.NomeArquivo,
+                DataInicio = importacao.DataInicio,
+                DataFim = importacao.DataFim,
+                TotalRegistros = importacao.TotalRegistros,
+                Processados = importacao.Processados,
+                Erros = importacao.Erros,
+                Status = importacao.Status.ToString()
+            };
+        }
     }
 }
