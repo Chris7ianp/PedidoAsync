@@ -35,8 +35,16 @@ namespace PedidoAsync.Application.Services
 
             importacao.IniciarProcessamento();
 
+            // Registra os erros encontrados durante a leitura da planilha
+            foreach (var erro in resultado.Erros)
+            {
+                importacao.RegistrarErro();
+            }
+
+
             await _importacaoRepository
                 .AtualizarAsync(importacao);
+
 
             foreach (var pedido in resultado.Pedidos)
             {
