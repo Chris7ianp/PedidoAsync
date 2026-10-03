@@ -11,6 +11,8 @@ public class PlanilhaPedidoReader : IPlanilhaPedidoReader
     {
         var pedidos = new List<CriarPedidoImportacaoDto>();
         var erros = new List<string>();
+        var numerosPedidos = new HashSet<int>();
+
 
         using var workbook = new XLWorkbook(arquivo);
 
@@ -99,6 +101,14 @@ public class PlanilhaPedidoReader : IPlanilhaPedidoReader
             {
                 erros.Add(
                     $"Linha {numeroLinha}: NumeroPedido inválido.");
+
+                continue;
+            }
+
+            if (!numerosPedidos.Add(numeroPedido))
+            {
+                erros.Add(
+                    $"Linha {numeroLinha}: NumeroPedido {numeroPedido} duplicado na planilha.");
 
                 continue;
             }
