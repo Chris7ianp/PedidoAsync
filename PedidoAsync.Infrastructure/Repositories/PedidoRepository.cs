@@ -40,4 +40,9 @@ public class PedidoRepository : IPedidoRepository
             p => p.Id == pedido.Id,
             pedido);
     }
+
+    public async Task<bool> ExistePorNumeroAsync(int numeroPedido) 
+    {
+        return await _pedidos.Find(f => f.NumeroPedido == numeroPedido).AnyAsync();
+    }
 }
