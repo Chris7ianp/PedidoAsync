@@ -11,4 +11,5 @@ public interface IPedidoRepository
     Task<List<Pedido>> ObterTodosAsync();
 
     Task AtualizarAsync(Pedido pedido);
+    Task<bool> ExistePorNumeroAsync(int numeroPedido);
 }

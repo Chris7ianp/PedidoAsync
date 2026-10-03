@@ -9,22 +9,42 @@ namespace PedidoAsync.Application.Services
         private readonly IPlanilhaPedidoReader _planilhaPedidoReader;
         private readonly IImportacaoRepository _importacaoRepository;
         private readonly PedidoService _pedidoService;
+        private readonly IPedidoRepository _pedidoRepository;
 
-        public ImportacaoService(IPlanilhaPedidoReader planilhaPedidoReader, IImportacaoRepository importacaoRepository, PedidoService pedidoService)
+        public ImportacaoService(IPlanilhaPedidoReader planilhaPedidoReader, IImportacaoRepository importacaoRepository, PedidoService pedidoService, IPedidoRepository pedidoRepository)
         {
             _planilhaPedidoReader = planilhaPedidoReader;
             _importacaoRepository = importacaoRepository;
             _pedidoService = pedidoService;
+            _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<(Importacao Importacao, List<CriarPedidoImportacaoDto> Pedidos)>
-        CriarImportacaoAsync(string nomeArquivo, Stream arquivo)
+        public async Task<(Importacao Importacao, List<CriarPedidoImportacaoDto> Pedidos)> CriarImportacaoAsync(string nomeArquivo, Stream arquivo)
         {
             var resultado = await _planilhaPedidoReader
                 .LerAsync(arquivo);
 
+            var pedidosValidos = new List<CriarPedidoImportacaoDto>();
+
+            var quantidadeErros = resultado.Erros.Count;
+
+            foreach (var pedido in resultado.Pedidos)
+            {
+                var existe = await _pedidoRepository
+                    .ExistePorNumeroAsync(pedido.NumeroPedido);
+
+                if (existe)
+                {
+                    quantidadeErros++;
+
+                    continue;
+                }
+
+                pedidosValidos.Add(pedido);
+            }
+
             var totalRegistros =
-                resultado.Pedidos.Count + resultado.Erros.Count;
+                pedidosValidos.Count + quantidadeErros;
 
             var importacao = new Importacao(
                 nomeArquivo,
@@ -35,18 +55,15 @@ namespace PedidoAsync.Application.Services
 
             importacao.IniciarProcessamento();
 
-            // Registra os erros encontrados durante a leitura da planilha
-            foreach (var erro in resultado.Erros)
+            for (var i = 0; i < quantidadeErros; i++)
             {
                 importacao.RegistrarErro();
             }
 
-
             await _importacaoRepository
                 .AtualizarAsync(importacao);
 
-
-            foreach (var pedido in resultado.Pedidos)
+            foreach (var pedido in pedidosValidos)
             {
                 await _pedidoService.CriarAsync(
                     importacao.Id,
@@ -57,7 +74,7 @@ namespace PedidoAsync.Application.Services
                     pedido.DataPedido);
             }
 
-            return (importacao, resultado.Pedidos);
+            return (importacao, pedidosValidos);
         }
 
         public async Task<ImportacaoDto?> ObterPorIdAsync(Guid id)
